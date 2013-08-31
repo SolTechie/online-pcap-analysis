@@ -1,0 +1,44 @@
+.myModal{
+    position:absolute;
+    top:0px;
+    height:0px;
+    border-radius:12px;
+    background-color:#eee;
+    display:none;
+}
+.myModalHeader{
+    height:0px;
+    width:0px;
+    border-top-left-radius:12px;
+    border-top-right-radius:12px;
+    border-bottom-style: solid;
+}
+.myModalBody{
+    width:0px;
+    height:0px;
+    overflow:scroll;
+}
+.myModalFooter{
+    height:0px
+    width:0;
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius:12px;
+    border-top-style: solid;
+}
+
+
+.mask{
+    position:absolute;
+    top:0px;
+    left:0px;
+    height:100%;
+    width:100%;
+    background-color:#000;
+    opacity:0.8;
+    display:none;
+}
+
+.myCanvas{
+    height:0px;
+    background-color:#eee;
+}

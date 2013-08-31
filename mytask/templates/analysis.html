@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}分析页面{% endblock %}
+{% block sign %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="container span2">
+      <h1 class="offset4">功能</h1>
+      <hr>
+      <button id="netGraph" class="btn btn-primary btn-block btn-large">HTTP网络星图</button>
+      <hr>
+      <button id="totalFlow" class="btn btn-success btn-block btn-large">总流量</button>
+      <hr>
+      <button id="ipsFlow" class="btn btn-danger btn-block btn-large">IP到IP流量</button>
+      <hr>
+      <button id="ipsDelay" class="btn btn-warning btn-block btn-large">IP到IP延时</button>
+      <hr>
+      <button id="servList" class="btn btn-info btn-block btn-large">网络服务列表</button>
+    </div>
+    <div class="span8" style="height:500px; overflow:scroll;">
+      <h1 class="offset4">HTTP协议列表</h1>
+      <hr>
+      {% include "table.html" %}
+    </div>
+    <div class="span2">
+      <a href={{ parsedFileName }} class="btn btn-inverse btn-large btn-block" style="margin-top:350px;">下载解析文件CSV</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="mask"></div>
+
+<!--My Modal Dialog -->
+<div class="myModal">
+  <div class="myModalHeader">
+  </div>
+  <div class="myModalBody">
+  </div>
+  <div class="myModalFooter">
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModalTips" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">没有上传文件</h3>
+  </div>
+  <div class="modal-body">
+    <p>因为没有上传文件，因此显示样例文件</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button class="btn btn-primary" data-dismiss="modal">确定</button>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block styles %}
+   <link href="http://121.199.35.74/static/css/modal.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+   <script src="http://121.199.35.74/static/js/chart.min.js"></script>
+   <script src="http://121.199.35.74/static/js/modal.js"></script>
+   <script src="http://121.199.35.74/static/js/flowCurve.js"></script>
+   <script src="http://121.199.35.74/static/js/atlas.js"></script>
+   <script src="http://121.199.35.74/static/js/delay.js"></script>
+   <script src="http://121.199.35.74/static/js/traffic.js"></script>
+   <script src="http://121.199.35.74/static/js/service_count.js"></script>
+   <script>
+     function initFoo(){
+        modalInit();
+        flowCurve();
+        delayShow();
+        atlasShow();   
+        trafficPie();
+        serviceShow();
+        {% if notPost %}
+           $("#myModalTips").modal();
+        {% endif %}
+     }
+     $(document).ready(initFoo());
+   </script>
+{% endblock %}
+
+
+
+
+

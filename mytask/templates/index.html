@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}在线PCAP数据分析{% endblock %}
+{% block sign %}
+   <form class="navbar-form pull-right" action="#">
+     <input class="span2" type="text" placeholder="Email">
+     <input class="span2" type="password" placeholder="Password">
+     <button id="login" class="btn btn-info">登入</button>
+     <button id="signup" class="btn btn-success">注册</button>
+   </form>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- Carousel
+       ================================================== -->
+  <div id="myCarousel" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="http://121.199.35.74/static/img/slide-02.jpg" alt="">
+	<div class="container">
+	  <div class="carousel-caption">
+	    <h1 style="color:#ddd;">多种数据分析呈现方式</h1>
+	  </div>
+	</div>
+      </div>
+      <div class="item">
+        <img src="http://121.199.35.74/static/img/slide-03.jpg" alt="">
+	<div class="container">
+	  <div class="carousel-caption">
+	    <h1 style="color:#ddd;">拥抱开源技术</h1>
+	  </div>
+	</div>
+      </div>
+      <div class="item">
+        <img src="http://121.199.35.74/static/img/slide-01.jpg" alt="">
+      	<div class="container">
+	  <div class="carousel-caption">
+	    <h1 style="color:#ddd;">一个轻量即用的PCAP在线分析器</h1>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+  </div><!-- /.carousel -->
+</div>
+
+<form action="/analysis/" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="btn btn-success" style="position:absolute; left:20%; top:80%; width:10%; height:5%; text-align:center;"><h4>选择文件</h4></div>
+  <input class="fileUpObj" type="file" name="fileName" style="position:absolute; left:20%; top:80%; width:10%; height:5%; opacity:0;">
+
+  <h4 id="fileShow" style="position:absolute; left:40%; top:80%; width:20%; height:5%; text-align:center;">请选择文件并上传分析</h4>
+  <div class="btn btn-success" style="position:absolute; left:70%; top:80%; width:10%; height:5%;text-align:center;"><h4>上传分析</h4></div>
+  <input id="submitUp" type="submit" name="analysis" style="position:absolute; left:70%; width:10%; top:80%; height:5%; opacity:0;">
+
+</form>
+
+
+<div id="myModalTips2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">敬请期待2.0</h3>
+  </div>
+  <div class="modal-body">
+    <h1>我们将要</h1>
+    <u>
+      <li><h3>增加服务器存储空间</h3></li>
+      <li><h3>分用户记录历史分析</h3></li>
+      <li><h3>优化缓存机制</h3></li>
+      <li><h3>提升用户体验</h3></li>
+      <li><h3>更加细粒度的分析</h3></li>
+      <li><h3>更丰富的图表呈现</h3></li>
+    </u>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button class="btn btn-primary" data-dismiss="modal">确定</button>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+  $("document").ready(function(){
+     $(".fileUpObj").change(function(){
+        $("#fileShow").text($(".fileUpObj").val());
+     });
+     $("#login").click(function(){
+        $("#myModalTips2").modal();
+     });
+     $("#signup").click(function(){
+        $("#myModalTips2").modal();
+     });
+  });
+</script>
+{% endblock %}
+
+
+  

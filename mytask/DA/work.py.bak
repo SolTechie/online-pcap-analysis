@@ -1,0 +1,109 @@
+import json
+import csv
+import os
+import time
+
+def genAtlas(items):
+    counter=0
+    vexs=set()
+    arcs={}
+    for item in items:
+        ip1=item[2]
+        ip2=item[4]
+        val=float(item[7])/1024.0
+        if ip1 not in vexs:
+            counter=counter+1
+            vexs.add(ip1)
+        if ip2 not in vexs:
+            counter=counter+1
+            vexs.add(ip2)
+        if ip1<ip2:
+            arc=(ip1,ip2)
+        else:
+            arc=(ip2,ip1)
+        if arc not in arcs:
+            arcs[arc]=val
+        else:
+            arcs[arc]=arcs[arc]+val
+    data={}
+    data["numVexs"]=counter
+    data["vertexs"]={}
+    data["arcs"]=[]
+    for vex in vexs:
+        data["vertexs"][vex]={"degree":0}
+    for arc in arcs:
+        data["arcs"].append({"s":arc[0],"t":arc[1],"flow":arcs[arc]})
+        data["vertexs"][arc[0]]["degree"]=data["vertexs"][arc[0]]["degree"]+1
+        data["vertexs"][arc[1]]["degree"]=data["vertexs"][arc[1]]["degree"]+1
+    f=open("/home/pingan/mytask/json/atlas.json","w")
+    json.dump(data,f)
+    f.close()
+
+def genTotalFlow(items):
+    tmInterv1={}
+    tmInterv10={}
+    tmInterv10["labels"]=["0s"]
+    for i in xrange(15):
+        tmInterv10["labels"].append(str((i+1)*100)+"s")
+    tmInterv10["datasets"]=[{"fillColor":"rgba(5,20,240,0.5)","strokeColor":"rgba(10,220,40,1)","pointColor":"rgba(220,20,20,1)","pointStrokeColor":"#fff","data":[0]*15}]
+    for item in items:
+        tm1=int(float(item[1]))
+        tm10=tm1/100
+        val=float(item[7])/1024.0
+        if tm1 not in tmInterv1:
+            tmInterv1[tm1]=val
+        else:
+            tmInterv1[tm1]=tmInterv1[tm1]+val
+        if tm10 > 15 :
+            pass
+        else:
+            tmInterv10["datasets"][0]["data"][tm10]=tmInterv10["datasets"][0]["data"][tm10]+val
+
+        
+    f=open("/home/pingan/mytask/json/totalFlow1.json","w")
+    json.dump(tmInterv1,f)
+    f.close()
+    f=open("/home/pingan/mytask/json/totalFlow10.json","w")
+    json.dump(tmInterv10,f)
+    f.close()
+
+def genJson(itemsHttp,itemsTcp,items):
+    genAtlas(itemsHttp)
+    #genTotalFlow(items)
+
+
+def process(file):
+    items=[]
+    f=open(file,"r")
+    rows = csv.reader(f)
+    for row in rows:
+        items.append(row)
+    f.close()
+    return items
+
+def loadCSV(request):
+    fields=["No.","Time","Source","S-Port","Destination","D-Port","Protocol","Length","Direction"]     
+    rawParsedFileName=""
+    if request.method=="POST":
+        upFile=request.FILES["fileName"]
+        upTime=time.time()
+        upAddr=request.META["REMOTE_ADDR"]
+        upPath="/home/pingan/mytask/upload/"
+        upName="__tm__"+str(upTime)+"__ad__"+str(upAddr)+"__nm__"+str(upFile.name)
+        f=open(upPath+upName,"wb")
+        for chunk in upFile.chunks():
+            f.write(chunk)
+        os.system("/home/pingan/mytask/CAnalysis/analysis"+" "+upPath+upName+" "+"/home/pingan/mytask/CAnalysis/"+upName+".csv"+" "+" /home/pingan/mytask/json/")
+        rawParsedFileName=upName+".csv"
+        os.system("cat /home/pingan/mytask/CAnalysis/"+upName+".csv | grep http >"+" /home/pingan/mytask/CAnalysis/"+upName+".csv.http")
+        os.system("cat /home/pingan/mytask/CAnalysis/"+upName+".csv | grep tcp >"+" /home/pingan/mytask/CAnalysis/"+upName+".csv.tcp")
+        itemsHttp=process("/home/pingan/mytask/CAnalysis/"+upName+".csv.http")
+        itemsTcp=process("/home/pingan/mytask/CAnalysis/"+upName+".csv.tcp")
+        items=process("/home/pingan/mytask/CAnalysis/"+upName+".csv")
+    else:
+        rawParsedFileName="__example__.csv"
+        itemsHttp=process("/home/pingan/mytask/CAnalysis/__example__.csv.http")
+        itemsTcp=process("/home/pingan/mytask/CAnalysis/__example__.csv.tcp")
+        items=process("/home/pingan/mytask/CAnalysis/__example__.csv")
+    genJson(itemsHttp,itemsTcp,items)
+    return fields,itemsHttp,rawParsedFileName

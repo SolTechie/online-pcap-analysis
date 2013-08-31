@@ -1,0 +1,89 @@
+<Html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="DA">
+    <meta name="application-name" content="DA">
+
+    <link href="//cdnjs.bootcss.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.bootcss.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/assets/css/docs.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="http://www.bootcss.com/assets/css/bootstro.min.css"  rel="stylesheet">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.bootcss.com/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://www.bootcss.com/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://www.bootcss.com/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://www.bootcss.com/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="http://www.bootcss.com/assets/ico/favicon.png">
+
+    {% block styles %}
+    {% endblock %}
+    
+    
+    <style type="text/css">
+      body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+      }
+    </style>
+    
+    
+  </head>
+  <body>
+    <Div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+	<div class="container">
+	  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+	  <a class="brand" style="color:#fff; float:left;" href="#">在线PCAP数据分析</a>
+	  <div class="nav-collapse collapse">
+	    <ul class="nav">
+              <li><a href="/index/"><b>首页</b></a></li>
+              <li><a href="/analysis"><b>分析</b></a></li>
+              <li class="dropdown dropdown-inverse">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>关于</b><b class="caret"></b></a>
+		<ul class="dropdown-menu">
+		  <li><a href="#">帮助</a></li>
+		  <li><a href="#">联系我们</a></li>
+		</ul>
+              </li>
+	    </ul>
+	    {% block sign %}
+	    
+	    {% endblock %}
+	  </div>
+	</div>
+      </div>
+    </div>
+    
+    {% block content %}
+
+    {% endblock %}
+    
+    
+    
+    <div style="position:absolute; width:80%; left:10%; top:90%; border-top-style:solid;">
+    
+      <h4 class="muted credit" style="text-align:center;"> 
+	数据分析｜黎勇<br>应用设计｜雨桥
+      </h4>
+      
+    </div>
+    
+    
+    <script src="//cdnjs.bootcss.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//cdnjs.bootcss.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="http://www.bootcss.com/assets/js/bootstro.min.js"></script>
+    <script src="http://www.bootcss.com/assets/js/google-code-prettify/prettify.js"></script> 
+    <script src="http://www.bootcss.com/assets/js/jquery.unveil.min.js"></script>
+    {% block script %}
+    {% endblock %}
+
+
+  </body>
+</html>
