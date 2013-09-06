@@ -1,23 +1,22 @@
 OnlinePcapAnalysis   (http://121.199.35.74)
 ==================
 
-一个在线的pcap文件分析工具
+An online pcap file analysis system
 
-部署系统        ubuntu
+  OS: ubuntu
 
-http服务器      nginx+uwsgi
+  http server: nginx+uwsgi
 
-web框架         django
+  programming language: python(using django framework)
 
-客户端支持      chrome safari firefox
+  client: chrome safari firefox
 
+deployment：
 
-部署方法：
+  the whole source-code is in mytask folder, copy it to dir ~/
 
-mytask文件夹中是所有的程序代码，将其部署至~/目录下。
+  the nginx config is in nginx_etx folder
 
-nginx_etx目录中是nginx的部署文件，主要修改nginx.conf和conf.d/default.conf文件，指明静态目录与Django网关，并且设置最大接受post上传的body。
-
-wsgi.ini是uwsgi的启动配置文件。pingansz中是数据分析模块的代码。
-
-最后启动nginx和uwsgi即可运行系统。
+  wsgi.ini is the boot configure of uwsgi 
+  
+  the folder pingansz contains the code of pcap file parse written by Gcc
